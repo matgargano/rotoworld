@@ -1,0 +1,27 @@
+{
+    "name": "mgargano/rotoworld",
+    "description": "Composer package that parses Rotoworld's DOM for news stories",
+    "keywords": ["rotoworld", "fantasy news", "fantasy sports news"],
+    "homepage" : "http://matgargano.com",
+    "type": "library",
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "Mat Gargano",
+            "email": "mgargano@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "mgargano/simplehtmldom":"dev-master"
+    },
+    "autoload": {
+        "psr-0": {
+            "Rotoworld": "src/"
+        },
+        "files": [
+            "src/Rotoworld.php"
+        ]
+    }
+    
+}
