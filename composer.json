@@ -14,9 +14,9 @@
     "require": {
         "php": ">=5.3.0"
     },
-    "require-dev": {
+    "require": {
         "mgargano/simplehtmldom":"dev-master"
-    },
+    },    
     "autoload": {
         "psr-0": {
             "Rotoworld": "src/"
