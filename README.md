@@ -17,6 +17,7 @@ This package is set up to be used (and required) via [Composer](http://getcompos
     }
 
 *PHP example*
+
     <?php
     require 'vendor/autoload.php';
     $news = new RotoworldNews\RotoworldNews;
