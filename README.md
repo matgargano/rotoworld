@@ -20,7 +20,7 @@ This package is set up to be used (and required) via [Composer](http://getcompos
 
     <?php
     require 'vendor/autoload.php';
-    $news = new RotoworldNews\RotoworldNews;
+    $news = new Rotoworld\Rotoworld;
     echo '<PRE>';
     var_dump( $news->get() );
     echo '</PRE>';
