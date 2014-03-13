@@ -87,8 +87,8 @@ class Rotoworld {
       */
 
     private function parseData($element){
+        $data = new \stdClass;
         foreach($element->find('.headline, .report, .impact, .info') as $elementContent){
-             $data = new \stdClass;
              $class = $elementContent->attr['class'];
                 switch($class){
                     case 'headline':
