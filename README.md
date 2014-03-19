@@ -11,8 +11,8 @@ This package is set up to be used (and required) via [Composer](http://getcompos
 
     {
         "require": {
-            "mgargano/simplehtmldom":"dev-master",
-            "mgargano/rotoworld": "dev-master"
+            "amstaff/simplehtmldom":"dev-master",
+            "mgargano/rotoworld": "~0.1.2"
         }
     }
 
