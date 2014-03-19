@@ -16,7 +16,8 @@
     },    
     "require-dev": {
         "amstaff/simplehtmldom" : "dev-master"
-    },    
+    },
+    "minimum-stability" : "dev",
     "autoload": {
         "psr-0": {
             "Rotoworld": "src/"
