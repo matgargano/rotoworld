@@ -12,7 +12,7 @@ This package is set up to be used (and required) via [Composer](http://getcompos
     {
         "require": {
             "mgargano/simplehtmldom":"~1.5",
-            "mgargano/rotoworld": "~0.1.2"
+            "mgargano/rotoworld": "~0.1.3"
         }
     }
 
