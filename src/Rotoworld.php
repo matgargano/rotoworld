@@ -33,23 +33,20 @@ class Rotoworld {
     protected $newsObject;
     protected $containerId;
 
-     /**
-      * Constructor allows defining of rotoworld URL and itemIdentifier right in the constructor, mutator methods also exist.
-      * @param string $url rotoworld url to scrape
-      * @param string $itemIdentifier jQuery style identifier
-      * @return void
-      */
 
+	/**
+	 * @param string $url
+	 * @param string $itemIdentifier
+	 */
     public function __construct($url = 'http://www.rotoworld.com/sports/mlb/baseball', $itemIdentifier = '.pb'){
         $this->setUrl($url);
         $this->setItemIdentifier($itemIdentifier);
     }
 
-    /**
-      * Get the data
-      * @return array of data objects
-      */
 
+	/**
+	 * @return array
+	 */
     public function get(){
         $dataArray = array();
         $html = \SimpleHtmlDom\file_get_html($this->url);
@@ -60,12 +57,14 @@ class Rotoworld {
         return $dataArray;
     }
 
-    /**
-      * Convert raw DOM data to a well defined object containing player news and meta information
-      * @param object DOM object containing raw player news and meta data
-      * @return object well defined object containing player news and meta information
-      */
 
+	/**
+	 * Convert raw DOM data to a well defined object containing player news and meta information
+	 * 
+	 * @param $element
+	 *
+	 * @return \stdClass
+	 */
     private function parseData($element){
         $data = new \stdClass;
         foreach($element->find('.headline, .report, .impact, .info') as $elementContent){
