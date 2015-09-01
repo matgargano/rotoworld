@@ -45,26 +45,6 @@ class Rotoworld {
         $this->setItemIdentifier($itemIdentifier);
     }
 
-     /**
-      * Set the Rotoworld URL to scrape
-      * @param string $url rotoworld url to scrape
-      * @return void
-      */
-
-    public function setUrl($url){
-        $this->url = $url;
-    }
-
-    /**
-      * Set the Rotoworld wrapping identifier (in jQuery format e.g. class of pb should be '.pb')
-      * @param string $itemIdentifier jQuery style identifier
-      * @return void
-      */
-
-    public function setItemIdentifier($itemIdentifier){
-        $this->itemIdentifier = $itemIdentifier;
-    }
-
     /**
       * Get the data
       * @return array of data objects
