@@ -27,82 +27,86 @@ namespace Rotoworld;
  */
 
 class Rotoworld {
-    
-    protected $url;
-    protected $itemIdentifier;
-    protected $newsObject;
-    protected $containerId;
+
+  protected $url;
+  protected $itemIdentifier;
+  protected $newsObject;
+  protected $containerId;
 
 
-	/**
-	 * @param string $url
-	 * @param string $itemIdentifier
-	 */
-    public function __construct($url = 'http://www.rotoworld.com/sports/mlb/baseball', $itemIdentifier = '.pb'){
-	    $this->url = $url;
-	    $this->itemIdentifier = $itemIdentifier;
+  /**
+   * @param string $url
+   * @param string $itemIdentifier
+   */
+  public function __construct( $url = 'http://www.rotoworld.com/sports/mlb/baseball', $itemIdentifier = '.pb' ) {
+    $this->url            = $url;
+    $this->itemIdentifier = $itemIdentifier;
+  }
+
+
+  /**
+   * @return array
+   */
+  public function get() {
+    $dataArray = array();
+    $html      = \SimpleHtmlDom\file_get_html( $this->url );
+    foreach ( $html->find( $this->itemIdentifier ) as $element ) {
+      $data        = $this->parseData( $element );
+      $dataArray[] = $data;
     }
 
+    return $dataArray;
+  }
 
-	/**
-	 * @return array
-	 */
-    public function get(){
-        $dataArray = array();
-        $html = \SimpleHtmlDom\file_get_html($this->url);
-        foreach($html->find($this->itemIdentifier) as $element) {
-            $data = $this->parseData($element);
-            $dataArray[] = $data;
-        }
-        return $dataArray;
+
+  /**
+   * Convert raw DOM data to a well defined object containing player news and meta information
+   *
+   * @param $element
+   *
+   * @return \stdClass
+   */
+  private function parseData( $element ) {
+    $data = (object) array();
+    foreach ( $element->find( '.headline, .report, .impact, .info' ) as $elementContent ) {
+      $class = $elementContent->attr['class'];
+      switch ( $class ) {
+        case 'headline':
+          $playerInfo              = explode( ' - ', $elementContent->plaintext );
+          $linkInfo                = explode( '/', $elementContent->find( 'a' )[0]->attr['href'] );
+          $data->name              = trim( $playerInfo[0] );
+          $data->position          = trim( $playerInfo[1] );
+          $data->team              = trim( $playerInfo[2] );
+          $data->id                = trim( $linkInfo[3] );
+          $data->nameDashDelimited = trim( $linkInfo[4] );
+          break;
+        case 'report':
+          $data->report = trim( $elementContent->plaintext );
+          break;
+
+        case 'impact':
+          $data->impact = trim( $elementContent->plaintext );
+          break;
+
+        case 'info':
+          $data->related = null;
+          $relatedRaw    = $elementContent->find( '.related' )[0]->find( 'a' );
+          foreach ( $relatedRaw as $relatedItem ) {
+            if ( $data->related ) {
+              $data->related .= ',';
+            }
+            $data->related .= trim( $relatedItem->plaintext );
+          }
+          if ( isset( $elementContent->find( '.source a' )[0]->attr['href'] ) ) {
+            $data->sourceURL  = trim( $elementContent->find( '.source a' )[0]->attr['href'] );
+            $data->sourceName = trim( $elementContent->find( '.source a' )[0]->plaintext );
+          }
+          $date       = $elementContent->find( '.date' )[0]->plaintext;
+          $data->date = strtotime( str_replace( ' - ', ',', $date ) ); //convert the date by making it strtotime readable
+          break;
+      }
     }
 
-
-	/**
-	 * Convert raw DOM data to a well defined object containing player news and meta information
-	 * 
-	 * @param $element
-	 *
-	 * @return \stdClass
-	 */
-    private function parseData($element){
-        $data = (object)array();
-        foreach($element->find('.headline, .report, .impact, .info') as $elementContent){
-             $class = $elementContent->attr['class'];
-                switch($class){
-                    case 'headline':
-                        $playerInfo = explode(' - ', $elementContent->plaintext);
-                        $linkInfo = explode('/', $elementContent->find('a')[0]->attr['href']);
-                        $data->name = trim($playerInfo[0]);
-                        $data->position = trim($playerInfo[1]);
-                        $data->team = trim($playerInfo[2]);
-                        $data->id = trim($linkInfo[3]);
-                        $data->nameDashDelimited = trim($linkInfo[4]);
-                    break;
-                    case 'report':
-                        $data->report = trim($elementContent->plaintext);
-                    break;
-
-                    case 'impact':
-                        $data->impact = trim($elementContent->plaintext);
-                    break;
-
-                    case 'info':
-                        $data->related = null;
-                        $relatedRaw = $elementContent->find('.related')[0]->find('a');
-                        foreach($relatedRaw as $relatedItem){
-                            if ($data->related) $data->related .= ',';
-                            $data->related .= trim($relatedItem->plaintext);
-                        }
-                        if (isset($elementContent->find('.source a')[0]->attr['href'])){
-                            $data->sourceURL = trim($elementContent->find('.source a')[0]->attr['href']);
-                            $data->sourceName = trim($elementContent->find('.source a')[0]->plaintext);
-                        }
-                        $date = $elementContent->find('.date')[0]->plaintext;
-                        $data->date = strtotime(str_replace(' - ', ',', $date)); //convert the date by making it strtotime readable
-                    break;
-                }
-           }
-           return $data;
-    }
+    return $data;
+  }
 }
