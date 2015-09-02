@@ -11,7 +11,7 @@ This package is set up to be required via [Composer](http://getcomposer.org/), f
 
     {
         "require": {
-            "mgargano/rotoworld": "~0.1.3"
+            "mgargano/rotoworld": "~0.2.2"
         }
     }
 
