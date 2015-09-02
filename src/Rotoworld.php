@@ -22,12 +22,12 @@ with this anyhow and anywhere.
 */
 
 namespace Rotoworld;
+use SimpleHtmlDom;
 use SimpleHtmlDom\simple_html_dom_node;
 
 /**
  * Class Rotoworld News
  */
-
 class Rotoworld {
 
   protected $url;
@@ -45,6 +45,7 @@ class Rotoworld {
 
     $this->url            = $baseUrl . $sport;
     $this->itemIdentifier = $itemIdentifier;
+
   }
 
 
@@ -55,7 +56,7 @@ class Rotoworld {
    */
   public function get() {
     $dataArray = array();
-    $html      = file_get_html( $this->url );
+    $html      = \SimpleHtmlDom\file_get_html( $this->url );
     foreach ( $html->find( $this->itemIdentifier ) as $element ) {
       $data        = self::parseData( $element );
       $dataArray[] = $data;
@@ -79,13 +80,13 @@ class Rotoworld {
       $class = $elementContent->attr['class'];
       switch ( $class ) {
         case 'headline':
-          $playerInfo              = explode( ' - ', $elementContent->plaintext );
-          $linkInfo                = explode( '/', $elementContent->find( 'a' )[0]->attr['href'] );
-          $data->name              = trim( $playerInfo[0] );
-          $data->position          = trim( $playerInfo[1] );
-          $data->team              = trim( $playerInfo[2] );
-          $data->id                = trim( $linkInfo[3] );
-          $data->nameDashDelimited = trim( $linkInfo[4] );
+          $playerInfo     = explode( ' - ', $elementContent->plaintext );
+          $linkInfo       = explode( '/', $elementContent->find( 'a' )[0]->attr['href'] );
+          $data->name     = trim( $playerInfo[0] );
+          $data->position = trim( $playerInfo[1] );
+          $data->team     = trim( $playerInfo[2] );
+          $data->id       = trim( $linkInfo[3] );
+          $data->slug     = trim( $linkInfo[4] );
           break;
         case 'report':
           $data->report = trim( $elementContent->plaintext );
@@ -96,13 +97,27 @@ class Rotoworld {
           break;
 
         case 'info':
-          $relatedRaw    = $elementContent->find( '.related' )[0]->find( 'a' );
+          $relatedRaw = $elementContent->find( '.related' )[0]->find( 'a' );
+          /* @var $relatedItem simple_html_dom_node */
           foreach ( $relatedRaw as $relatedItem ) {
-            if ( $data->related ) {
-              $data->related .= ',';
+            $attributes = explode( '/', $relatedItem->getAllAttributes()['href'] );
+            $type       = $attributes[1];
+            $name       = $relatedItem->plaintext;
+            if ( 'teams' === $type ) {
+              $sport = $attributes[3];
+              $id    = $attributes[4];
+              $slug  = $attributes[5];
+            } elseif ( 'player' === $type ) {
+              $sport = $attributes[2];
+              $id    = $attributes[3];
+              $slug  = $attributes[4];
+            } else {
+              continue;
             }
-            $data->related .= trim( $relatedItem->plaintext );
+
+            $data->related[] = compact( 'name', 'type', 'sport', 'id', 'slug' );
           }
+
           if ( isset( $elementContent->find( '.source a' )[0]->attr['href'] ) ) {
             $data->sourceURL  = trim( $elementContent->find( '.source a' )[0]->attr['href'] );
             $data->sourceName = trim( $elementContent->find( '.source a' )[0]->plaintext );
