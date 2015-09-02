@@ -39,8 +39,8 @@ class Rotoworld {
 	 * @param string $itemIdentifier
 	 */
     public function __construct($url = 'http://www.rotoworld.com/sports/mlb/baseball', $itemIdentifier = '.pb'){
-        $this->setUrl($url);
-        $this->setItemIdentifier($itemIdentifier);
+	    $this->url = $url;
+	    $this->itemIdentifier = $itemIdentifier;
     }
 
 
@@ -66,7 +66,7 @@ class Rotoworld {
 	 * @return \stdClass
 	 */
     private function parseData($element){
-        $data = new \stdClass;
+        $data = (object)array();
         foreach($element->find('.headline, .report, .impact, .info') as $elementContent){
              $class = $elementContent->attr['class'];
                 switch($class){
