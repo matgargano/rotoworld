@@ -96,7 +96,6 @@ class Rotoworld {
           break;
 
         case 'info':
-          $data->related = null;
           $relatedRaw    = $elementContent->find( '.related' )[0]->find( 'a' );
           foreach ( $relatedRaw as $relatedItem ) {
             if ( $data->related ) {
