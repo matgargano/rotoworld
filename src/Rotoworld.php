@@ -56,7 +56,7 @@ class Rotoworld {
    */
   public function get() {
     $dataArray = array();
-    $html      = \SimpleHtmlDom\file_get_html( $this->url );
+    $html      = file_get_html( $this->url );
     foreach ( $html->find( $this->itemIdentifier ) as $element ) {
       $data        = self::parseData( $element );
       $dataArray[] = $data;
