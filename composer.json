@@ -16,12 +16,10 @@
         "mgargano/simplehtmldom" : "~1.5"
     },
     "autoload": {
-        "psr-0": {
-            "Rotoworld": "src/"
-        },
-        "files": [
-            "src/Rotoworld.php"
-        ]
+        "psr-4" : {
+          "Rotoworld\\": "src"
+
+        }
     }
     
 }
