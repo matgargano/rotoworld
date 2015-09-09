@@ -15,203 +15,292 @@ This package is set up to be required via [Composer](http://getcomposer.org/), f
         }
     }
 
+*Note*
+The times for news articles default to America/New_York
+
 *PHP example*
 
     <?php
+    
     require 'vendor/autoload.php';
     $news = new Rotoworld\Rotoworld;
     echo '<PRE>';
-    var_dump( $news->get() );
+    var_dump( $news->get() ); //defaults to MLB
     echo '</PRE>';
 
 This can return:
 
     array(8) {
       [0]=>
-      object(stdClass)#5354 (11) {
-        ["name"]=>
-        string(17) "Johnny Giavotella"
-        ["position"]=>
-        string(2) "2B"
-        ["team"]=>
-        string(6) "Angels"
-        ["id"]=>
-        string(4) "5775"
-        ["nameDashDelimited"]=>
-        string(17) "johnny-giavotella"
-        ["report"]=>
-        string(171) "Angels manager Mike Scioscia said Tuesday that Johnny Giavotella (illness) has made "very little progress" and he's not sure when the second baseman will return."
-        ["impact"]=>
-        string(241) "Giavotella has been nursing an undisclosed illness and it appears he's having trouble kicking it. He will rejoin the club on Friday, but as to when he'll be activated is totally up in the air. The Angels are using Grant Green at second base."
-        ["related"]=>
+      object(Rotoworld\RotoworldNews)#5350 (8) {
+        ["player":protected]=>
+        object(Rotoworld\RotoworldPlayer)#5349 (5) {
+          ["name":protected]=>
+          string(14) "Nick Greenwood"
+          ["slug":protected]=>
+          string(14) "nick-greenwood"
+          ["id":protected]=>
+          string(4) "6431"
+          ["position":protected]=>
+          string(1) "R"
+          ["team":protected]=>
+          string(9) "Cardinals"
+        }
+        ["report":protected]=>
+        string(55) "Cardinals designated LHP Nick Greenwood for assignment."
+        ["impact":protected]=>
+        string(116) "Greenwood holds a 5.25 ERA over 20 appearances the last two season with the Cardinals. He's likely to clear waivers."
+        ["sourceURL":protected]=>
         NULL
-        ["sourceURL"]=>
-        string(61) "https://twitter.com/JeffFletcherOCR/status/638864835766169600"
-        ["sourceName"]=>
-        string(24) "Jeff Fletcher on Twitter"
-        ["date"]=>
-        int(1441152780)
+        ["sourceName":protected]=>
+        NULL
+        ["date":protected]=>
+        int(1441815660)
+        ["relatedPlayers":protected]=>
+        NULL
+        ["sport":protected]=>
+        string(3) "mlb"
       }
       [1]=>
-      object(stdClass)#5355 (11) {
-        ["name"]=>
-        string(12) "Josh Johnson"
-        ["position"]=>
-        string(1) "S"
-        ["team"]=>
-        string(6) "Padres"
-        ["id"]=>
-        string(4) "4293"
-        ["nameDashDelimited"]=>
-        string(12) "josh-johnson"
-        ["report"]=>
-        string(75) "Josh Johnson (elbow) thinks he could begin a rehab assignment this weekend."
-        ["impact"]=>
-        string(269) "Johnson got through a 15-pitch simulated game on Tuesday with no issues and believes he's ready for game action. It sounds like the right-hander could join the Padres at some point later this month, although with him the next setback is usually right around the corner."
-        ["related"]=>
+      object(Rotoworld\RotoworldNews)#5352 (8) {
+        ["player":protected]=>
+        object(Rotoworld\RotoworldPlayer)#5351 (5) {
+          ["name":protected]=>
+          string(10) "Matt Adams"
+          ["slug":protected]=>
+          string(10) "matt-adams"
+          ["id":protected]=>
+          string(4) "6591"
+          ["position":protected]=>
+          string(2) "1B"
+          ["team":protected]=>
+          string(9) "Cardinals"
+        }
+        ["report":protected]=>
+        string(64) "Cardinals activated 1B Matt Adams from the 60-day disabled list."
+        ["impact":protected]=>
+        string(256) "When Adams might be ready to play the field remains to be seen, but he should be able to serve at least as a pinch-hitter for the Cards immediately. The big first baseman has been out since late May after undergoing surgery to repair a Grade 3 quad strain."
+        ["sourceURL":protected]=>
         NULL
-        ["sourceURL"]=>
-        string(56) "https://twitter.com/dennistlin/status/638862639058194433"
-        ["sourceName"]=>
-        string(21) "Dennis Lin on Twitter"
-        ["date"]=>
-        int(1441151940)
+        ["sourceName":protected]=>
+        NULL
+        ["date":protected]=>
+        int(1441815540)
+        ["relatedPlayers":protected]=>
+        NULL
+        ["sport":protected]=>
+        string(3) "mlb"
       }
       [2]=>
-      object(stdClass)#5356 (11) {
-        ["name"]=>
-        string(16) "Brandon Crawford"
-        ["position"]=>
-        string(2) "SS"
-        ["team"]=>
-        string(6) "Giants"
-        ["id"]=>
-        string(4) "5012"
-        ["nameDashDelimited"]=>
-        string(16) "brandon-crawford"
-        ["report"]=>
-        string(54) "Brandon Crawford is not in the Giants' lineup Tuesday."
-        ["impact"]=>
-        string(246) "Crawford was hit by a pitch Monday in his first game back after missing a week with an oblique injury. That's presumably the reason he's not playing Tuesday, although the Giants haven't confirmed that. Ehire Adrianza is at shortstop in his place."
-        ["related"]=>
-        string(14) "Ehire Adrianza"
-        ["sourceURL"]=>
+      object(Rotoworld\RotoworldNews)#5356 (8) {
+        ["player":protected]=>
+        object(Rotoworld\RotoworldPlayer)#5354 (5) {
+          ["name":protected]=>
+          string(11) "Kolten Wong"
+          ["slug":protected]=>
+          string(11) "kolten-wong"
+          ["id":protected]=>
+          string(4) "6738"
+          ["position":protected]=>
+          string(2) "2B"
+          ["team":protected]=>
+          string(9) "Cardinals"
+        }
+        ["report":protected]=>
+        string(67) "Kolten Wong (calf) remained out of the Cardinals' lineup Wednesday."
+        ["impact":protected]=>
+        string(198) "He hasn't started the last three games due to tightness in his left calf, although he was able to pinch-hit Monday. Matt Carpenter is at second base and Mark Reynolds is at third again on Wednesday."
+        ["sourceURL":protected]=>
         string(41) "http://www.rotoworld.com/mlb/dailyLineups"
-        ["sourceName"]=>
+        ["sourceName":protected]=>
         string(23) "Rotoworld Daily Lineups"
-        ["date"]=>
-        int(1441151400)
+        ["date":protected]=>
+        int(1441809660)
+        ["relatedPlayers":protected]=>
+        array(1) {
+          [0]=>
+          object(Rotoworld\RotoworldPlayer)#5355 (5) {
+            ["name":protected]=>
+            string(13) "Mark Reynolds"
+            ["slug":protected]=>
+            string(13) "mark-reynolds"
+            ["id":protected]=>
+            string(4) "4649"
+            ["position":protected]=>
+            NULL
+            ["team":protected]=>
+            NULL
+          }
+        }
+        ["sport":protected]=>
+        string(3) "mlb"
       }
       [3]=>
-      object(stdClass)#5357 (11) {
-        ["name"]=>
-        string(15) "Miguel Gonzalez"
-        ["position"]=>
-        string(1) "S"
-        ["team"]=>
-        string(7) "Orioles"
-        ["id"]=>
-        string(4) "5702"
-        ["nameDashDelimited"]=>
-        string(15) "miguel-gonzalez"
-        ["report"]=>
-        string(76) "MRIs on Miguel Gonzalez's right elbow and shoulder showed only inflammation."
-        ["impact"]=>
-        string(294) "Gonzalez has dealt with shoulder soreness for a little while and thinks he might have caused an elbow injury but compensating for it. However, the good news is that he's not dealing with any structural issues. The right-hander should rejoin the Orioles' rotation at some point later this month."
-        ["related"]=>
+      object(Rotoworld\RotoworldNews)#5357 (8) {
+        ["player":protected]=>
+        object(Rotoworld\RotoworldPlayer)#5348 (5) {
+          ["name":protected]=>
+          string(14) "Randal Grichuk"
+          ["slug":protected]=>
+          string(14) "randal-grichuk"
+          ["id":protected]=>
+          string(4) "5986"
+          ["position":protected]=>
+          string(2) "OF"
+          ["team":protected]=>
+          string(9) "Cardinals"
+        }
+        ["report":protected]=>
+        string(66) "Randal Grichuk (elbow) is back in the Cardinals' lineup Wednesday."
+        ["impact":protected]=>
+        string(268) "The feeling had been that it would be a while before he could play the field again, but obviously that's not the case. Grichuk hit a pinch-hit homer on Tuesday and his elbow evidently feels well enough that he can handle center field. He's hitting fifth for the Cards."
+        ["sourceURL":protected]=>
+        string(41) "http://www.rotoworld.com/mlb/dailyLineups"
+        ["sourceName":protected]=>
+        string(23) "Rotoworld Daily Lineups"
+        ["date":protected]=>
+        int(1441809540)
+        ["relatedPlayers":protected]=>
         NULL
-        ["sourceURL"]=>
-        string(54) "https://twitter.com/masnRoch/status/638858545514053632"
-        ["sourceName"]=>
-        string(23) "Roch Kubatko on Twitter"
-        ["date"]=>
-        int(1441151160)
+        ["sport":protected]=>
+        string(3) "mlb"
       }
       [4]=>
-      object(stdClass)#5358 (9) {
-        ["name"]=>
-        string(14) "Patrick Corbin"
-        ["position"]=>
-        string(1) "S"
-        ["team"]=>
-        string(12) "Diamondbacks"
-        ["id"]=>
-        string(4) "6415"
-        ["nameDashDelimited"]=>
-        string(14) "patrick-corbin"
-        ["report"]=>
-        string(97) "Patrick Corbin held the Rockies to two runs over 6 1/3 innings en route to a 6-4 victory Tuesday."
-        ["impact"]=>
-        string(414) "Corbin served up a pair of solo homers among the seven hits he allowed, but he didn't walk anyone and struck out four. It's certainly an outing that you have to be pleased with at Coors Field. The left-hander has pitched well since returning from Tommy John surgery, posting a 3.67 ERA and 56/13 K/BB ratio over 56 1/3 innings. He'll try to keep it going next week in two home starts versus the Giants and Dodgers."
-        ["related"]=>
+      object(Rotoworld\RotoworldNews)#5359 (8) {
+        ["player":protected]=>
+        object(Rotoworld\RotoworldPlayer)#5358 (5) {
+          ["name":protected]=>
+          string(18) "Franklin Gutierrez"
+          ["slug":protected]=>
+          string(18) "franklin-gutierrez"
+          ["id":protected]=>
+          string(4) "1229"
+          ["position":protected]=>
+          string(2) "OF"
+          ["team":protected]=>
+          string(8) "Mariners"
+        }
+        ["report":protected]=>
+        string(108) "Franklin Gutierrez's groin injury stems from his chronic joint issue that he's battled the last few seasons."
+        ["impact":protected]=>
+        string(312) "The ailment had previously been described as a strained right groin muscle, but it's actually related to his ankylosing spondylitis condition. He hasn't played since last Friday and remains day-to-day. Gutierrez has been a nice surprise this season with a .313/.364/.641 batting line and 11 homers over 45 games."
+        ["sourceURL":protected]=>
+        string(78) "http://www.thenewstribune.com/sports/mlb/seattle-mariners/article34419492.html"
+        ["sourceName":protected]=>
+        string(19) "Tacoma News Tribune"
+        ["date":protected]=>
+        int(1441808400)
+        ["relatedPlayers":protected]=>
         NULL
-        ["date"]=>
-        int(1441150380)
+        ["sport":protected]=>
+        string(3) "mlb"
       }
       [5]=>
-      object(stdClass)#5359 (9) {
-        ["name"]=>
-        string(13) "Daniel Hudson"
-        ["position"]=>
-        string(1) "R"
-        ["team"]=>
-        string(12) "Diamondbacks"
-        ["id"]=>
-        string(4) "5911"
-        ["nameDashDelimited"]=>
-        string(13) "daniel-hudson"
-        ["report"]=>
-        string(136) "With Brad Ziegler unavailable, Daniel Hudson allowed a run but converted his third save of the season Tuesday in a win over the Rockies."
-        ["impact"]=>
-        string(453) "Nick Hundley led off the ninth with a double and Carlos Gonzalez switched places him with a one-out double of his own, but Hudson then induced a strikeout and popout to preserve the two-run victory. Hudson's ERA this season in relief is just 3.99, but he's struck out a batter per inning and is topping out in the high-90s with his fastball. He has the potential to be a shutdown reliever, but the D'Backs could put him back in the rotation next season."
-        ["related"]=>
-        NULL
-        ["date"]=>
-        int(1441150200)
+      object(Rotoworld\RotoworldNews)#5363 (8) {
+        ["player":protected]=>
+        object(Rotoworld\RotoworldPlayer)#5361 (5) {
+          ["name":protected]=>
+          string(11) "Kris Bryant"
+          ["slug":protected]=>
+          string(11) "kris-bryant"
+          ["id":protected]=>
+          string(4) "7248"
+          ["position":protected]=>
+          string(2) "3B"
+          ["team":protected]=>
+          string(4) "Cubs"
+        }
+        ["report":protected]=>
+        string(49) "Kris Bryant is not in the Cubs' lineup Wednesday."
+        ["impact":protected]=>
+        string(83) "It's a routine day off. The Cubs have Javier Baez at third base while Bryant rests."
+        ["sourceURL":protected]=>
+        string(41) "http://www.rotoworld.com/mlb/dailyLineups"
+        ["sourceName":protected]=>
+        string(23) "Rotoworld Daily Lineups"
+        ["date":protected]=>
+        int(1441808160)
+        ["relatedPlayers":protected]=>
+        array(1) {
+          [0]=>
+          object(Rotoworld\RotoworldPlayer)#5362 (5) {
+            ["name":protected]=>
+            string(11) "Javier Baez"
+            ["slug":protected]=>
+            string(11) "javier-baez"
+            ["id":protected]=>
+            string(4) "6741"
+            ["position":protected]=>
+            NULL
+            ["team":protected]=>
+            NULL
+          }
+        }
+        ["sport":protected]=>
+        string(3) "mlb"
       }
       [6]=>
-      object(stdClass)#5360 (9) {
-        ["name"]=>
-        string(13) "Phil Gosselin"
-        ["position"]=>
-        string(2) "2B"
-        ["team"]=>
-        string(12) "Diamondbacks"
-        ["id"]=>
-        string(4) "7549"
-        ["nameDashDelimited"]=>
-        string(13) "phil-gosselin"
-        ["report"]=>
-        string(96) "Phil Gosselin doubled in a run and launched a three-run homer in Tuesday's win over the Rockies."
-        ["impact"]=>
-        string(341) "Gosselin was hitless in his Diamondbacks debut Monday, but he made up for it and then some with a big showing in his second game with the Snakes. His blast off Miguel Castro in the seventh inning went an estimated 441 feet. It looks like Gosselin could get a decent look at second base this month, making him worth a look in NL-only formats."
-        ["related"]=>
+      object(Rotoworld\RotoworldNews)#5364 (8) {
+        ["player":protected]=>
+        object(Rotoworld\RotoworldPlayer)#5353 (5) {
+          ["name":protected]=>
+          string(14) "Kyle Schwarber"
+          ["slug":protected]=>
+          string(14) "kyle-schwarber"
+          ["id":protected]=>
+          string(4) "7848"
+          ["position":protected]=>
+          string(2) "OF"
+          ["team":protected]=>
+          string(4) "Cubs"
+        }
+        ["report":protected]=>
+        string(60) "Kyle Schwarber (ribs) is back in the Cubs' lineup Wednesday."
+        ["impact":protected]=>
+        string(197) "It's his first start since he suffered a strain in his right rib cage last week, although Schwarber was able to pinch-hit on Tuesday. The rookie is in left field and batting second for the Cubbies."
+        ["sourceURL":protected]=>
+        string(41) "http://www.rotoworld.com/mlb/dailyLineups"
+        ["sourceName":protected]=>
+        string(23) "Rotoworld Daily Lineups"
+        ["date":protected]=>
+        int(1441808100)
+        ["relatedPlayers":protected]=>
         NULL
-        ["date"]=>
-        int(1441149900)
+        ["sport":protected]=>
+        string(3) "mlb"
       }
       [7]=>
-      object(stdClass)#5361 (9) {
-        ["name"]=>
-        string(10) "Josh Ravin"
-        ["position"]=>
-        string(1) "R"
-        ["team"]=>
-        string(7) "Dodgers"
-        ["id"]=>
-        string(4) "7291"
-        ["nameDashDelimited"]=>
-        string(10) "josh-ravin"
-        ["report"]=>
-        string(126) "Dodgers recalled RHP Josh Ravin from Triple-A Oklahoma City; placed him on the 60-day disabled list with a left hernia injury."
-        ["impact"]=>
-        string(136) "The move clears a spot on the 40-man roster for Justin Ruggiano. It's unclear whether Ravin needs surgery, but he's done for the season."
-        ["related"]=>
+      object(Rotoworld\RotoworldNews)#5366 (8) {
+        ["player":protected]=>
+        object(Rotoworld\RotoworldPlayer)#5365 (5) {
+          ["name":protected]=>
+          string(11) "CC Sabathia"
+          ["slug":protected]=>
+          string(11) "cc-sabathia"
+          ["id":protected]=>
+          string(4) "3149"
+          ["position":protected]=>
+          string(1) "S"
+          ["team":protected]=>
+          string(7) "Yankees"
+        }
+        ["report":protected]=>
+        string(64) "Yankees activated LHP CC Sabathia from the 15-day disabled list."
+        ["impact":protected]=>
+        string(271) "Sabathia is slated to start Wednesday's game versus the Orioles. The big left-hander has missed the last couple weeks with an arthritic right knee and will likely have to pitch through some pain for the remainder of the season. He holds a 5.27 ERA over 24 starts in 2015."
+        ["sourceURL":protected]=>
         NULL
-        ["date"]=>
-        int(1441149600)
+        ["sourceName":protected]=>
+        NULL
+        ["date":protected]=>
+        int(1441807860)
+        ["relatedPlayers":protected]=>
+        NULL
+        ["sport":protected]=>
+        string(3) "mlb"
       }
     }
     
 **DISCLAIMER**
 The information obtained with this package are the intellectual property of Rotoworld.com and NBCSports. This is to be used for educational purposes and you should consult with Rotoworld.com or NBC Sports if you are going to use this or information obtained with this anyhow and anywhere.
+
