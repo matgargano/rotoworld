@@ -22,6 +22,7 @@ with this anyhow and anywhere.
 */
 
 namespace Rotoworld;
+
 use SimpleHtmlDom;
 use SimpleHtmlDom\simple_html_dom_node;
 
@@ -30,104 +31,154 @@ use SimpleHtmlDom\simple_html_dom_node;
  */
 class Rotoworld {
 
-  protected $url;
-  protected $itemIdentifier;
-  protected $newsObject;
-  protected $containerId;
+	protected $url;
+	protected $itemIdentifier;
+	protected $newsObject;
+	protected $containerId;
 
 
-  /**
-   * @param string $sport accepts the endpoint after the baseUrl from rotoworld.com, accepts mlb, nfl, nhl, bpl, gol and nas
-   * @param string $baseUrl this should never change, but it is the base url + uri for scraping the data
-   * @param string $itemIdentifier this should never change, this is the sizzle style selector for grabbing each block of news
-   */
-  public function __construct( $sport = 'mlb', $baseUrl = 'http://www.rotoworld.com/sports/', $itemIdentifier = '.pb' ) {
+	/**
+	 * @param string $sport
+	 * @param string $baseUrl
+	 * @param string $itemIdentifier
+	 */
+	public function __construct( $sport = 'mlb', $baseUrl = 'http://www.rotoworld.com/sports/', $itemIdentifier = '.pb' ) {
 
-    $this->url            = $baseUrl . $sport;
-    $this->itemIdentifier = $itemIdentifier;
-
-  }
-
-
-  /**
-   * Grab and return the data
-   *
-   * @return array
-   */
-  public function get() {
-    $dataArray = array();
-    $html      = file_get_html( $this->url );
-    foreach ( $html->find( $this->itemIdentifier ) as $element ) {
-      $data        = self::parseData( $element );
-      $dataArray[] = $data;
-    }
-
-    return $dataArray;
-  }
+		$this->url            = $baseUrl . $sport;
+		$this->itemIdentifier = $itemIdentifier;
+		$this->sport          = $sport;
+	}
 
 
-  /**
-   * Convert raw DOM data to a well defined object containing player news and meta information
-   *
-   * @param $element
-   *
-   * @return \stdClass
-   */
-  private static function parseData( simple_html_dom_node $element ) {
-    $data = (object) array();
-    /* @var $elementContent simple_html_dom_node */
-    foreach ( $element->find( '.headline, .report, .impact, .info' ) as $elementContent ) {
-      $class = $elementContent->attr['class'];
-      switch ( $class ) {
-        case 'headline':
-          $playerInfo     = explode( ' - ', $elementContent->plaintext );
-          $linkInfo       = explode( '/', $elementContent->find( 'a' )[0]->attr['href'] );
-          $data->name     = trim( $playerInfo[0] );
-          $data->position = trim( $playerInfo[1] );
-          $data->team     = trim( $playerInfo[2] );
-          $data->id       = trim( $linkInfo[3] );
-          $data->slug     = trim( $linkInfo[4] );
-          break;
-        case 'report':
-          $data->report = trim( $elementContent->plaintext );
-          break;
+	/**
+	 * @return array
+	 */
+	public function get() {
+		$dataArray = array();
+		$html      = \SimpleHtmlDom\file_get_html( $this->url );
+		foreach ( $html->find( $this->itemIdentifier ) as $element ) {
+			$data        = $this->parseData( $element );
+			$dataArray[] = $data;
+		}
 
-        case 'impact':
-          $data->impact = trim( $elementContent->plaintext );
-          break;
+		return $dataArray;
+	}
 
-        case 'info':
-          $relatedRaw = $elementContent->find( '.related' )[0]->find( 'a' );
-          /* @var $relatedItem simple_html_dom_node */
-          foreach ( $relatedRaw as $relatedItem ) {
-            $attributes = explode( '/', $relatedItem->getAllAttributes()['href'] );
-            $type       = $attributes[1];
-            $name       = $relatedItem->plaintext;
-            if ( 'teams' === $type ) {
-              $sport = $attributes[3];
-              $id    = $attributes[4];
-              $slug  = $attributes[5];
-            } elseif ( 'player' === $type ) {
-              $sport = $attributes[2];
-              $id    = $attributes[3];
-              $slug  = $attributes[4];
-            } else {
-              continue;
-            }
 
-            $data->related[] = compact( 'name', 'type', 'sport', 'id', 'slug' );
-          }
+	/**
+	 * Convert raw DOM data to a well defined object containing player news and meta information
+	 *
+	 * @param simple_html_dom_node $element
+	 *
+	 * @return RotoworldNews
+	 */
+	private function parseData( simple_html_dom_node $element ) {
+		$data = (object) array();
+		foreach ( $element->find( '.headline, .report, .impact, .info' ) as $elementContent ) {
+			$class = $elementContent->attr['class'];
+			switch ( $class ) {
+				case 'headline':
+					$playerInfo     = explode( ' - ', $elementContent->plaintext );
+					$linkInfo       = explode( '/', $elementContent->find( 'a' )[0]->attr['href'] );
+					$data->name     = trim( $playerInfo[0] );
+					$data->position = trim( $playerInfo[1] );
+					$data->team     = trim( $playerInfo[2] );
+					$data->id       = trim( $linkInfo[3] );
+					$data->slug     = trim( $linkInfo[4] );
+					break;
+				case 'report':
+					$data->report = trim( $elementContent->plaintext );
+					break;
 
-          if ( isset( $elementContent->find( '.source a' )[0]->attr['href'] ) ) {
-            $data->sourceURL  = trim( $elementContent->find( '.source a' )[0]->attr['href'] );
-            $data->sourceName = trim( $elementContent->find( '.source a' )[0]->plaintext );
-          }
-          $date       = $elementContent->find( '.date' )[0]->plaintext;
-          $data->date = strtotime( str_replace( ' - ', ',', $date ) ); //convert the date by making it strtotime readable
-          break;
-      }
-    }
+				case 'impact':
+					$data->impact = trim( $elementContent->plaintext );
+					break;
 
-    return $data;
-  }
+				case 'info':
+					$relatedRaw = $elementContent->find( '.related' )[0]->find( 'a' );
+					/* @var $relatedItem simple_html_dom_node */
+					foreach ( $relatedRaw as $relatedItem ) {
+
+						$name = $relatedItem->plaintext;
+
+						$attributes = explode( '/', $relatedItem->getAllAttributes()['href'] );
+
+						$type = $attributes[1];
+
+
+						if ( 'teams' === $type ) {
+							$sport = $attributes[3];
+							$id    = $attributes[4];
+							$slug  = $attributes[5];
+						} elseif ( 'player' === $type ) {
+							$sport = $attributes[2];
+							$id    = $attributes[3];
+							$slug  = $attributes[4];
+						} else {
+							continue;
+						}
+
+						$data->related[ $type ][] = (object) compact( 'name', 'sport', 'id', 'slug' );
+					}
+
+					if ( isset( $elementContent->find( '.source a' )[0]->attr['href'] ) ) {
+						$data->sourceURL  = trim( $elementContent->find( '.source a' )[0]->attr['href'] );
+						$data->sourceName = trim( $elementContent->find( '.source a' )[0]->plaintext );
+					}
+					$date       = $elementContent->find( '.date' )[0]->plaintext;
+					$data->date = strtotime( str_replace( ' - ', ',', $date ) ); //convert the date by making it strtotime readable
+					break;
+			}
+		}
+
+		$player         = new RotoworldPlayer( array(
+			'name'     => $data->name,
+			'slug'     => $data->slug,
+			'id'       => $data->id,
+			'position' => $data->position,
+			'team'     => $data->team
+		) );
+		$relatedPlayers = null;
+
+
+		if ( isset( $data->related['player'] ) && is_array( $data->related['player'] ) ) {
+
+			foreach ( $data->related['player'] as $relatedPlayer ) {
+
+				$relatedPlayers[] = new RotoworldPlayer(
+					array(
+						'name'     => $relatedPlayer->name,
+						'slug'     => $relatedPlayer->slug,
+						'id'       => $relatedPlayer->id,
+						'position' => $relatedPlayer->position,
+						'team'     => $relatedPlayer->team
+					)
+				);
+			}
+
+		}
+
+
+		$newsElement = new RotoworldNews(
+
+			array(
+				'player'         => $player,
+				'report'         => $data->report,
+				'impact'         => $data->impact,
+				'sourceURL'      => $data->sourceURL,
+				'sourceName'     => $data->sourceName,
+				'date'           => $data->date,
+				'relatedPlayers' => $relatedPlayers,
+				'sport'          => $this->sport
+
+
+			)
+
+
+		);
+
+		return $newsElement;
+
+
+	}
 }
