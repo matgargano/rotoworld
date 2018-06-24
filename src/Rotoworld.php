@@ -135,8 +135,8 @@ class Rotoworld {
 			'name'     => $data->name,
 			'slug'     => $data->slug,
 			'id'       => $data->id,
-			'position' => $data->position,
-			'team'     => $data->team
+			'position' => isset($data->position) ? $data->position : null,
+			'team' => isset($data->team) ? $data->team   : null,
 		) );
 		$relatedPlayers = null;
 
@@ -150,8 +150,8 @@ class Rotoworld {
 						'name'     => $relatedPlayer->name,
 						'slug'     => $relatedPlayer->slug,
 						'id'       => $relatedPlayer->id,
-						'position' => $relatedPlayer->position,
-						'team'     => $relatedPlayer->team
+						'position' => isset($relatedPlayer->position) ? $relatedPlayer->position : null,
+						'team'     => isset( $relatedPlayer->team ) ? $relatedPlayer->team : null,
 					)
 				);
 			}
@@ -165,10 +165,10 @@ class Rotoworld {
 				'player'         => $player,
 				'report'         => $data->report,
 				'impact'         => $data->impact,
-				'sourceURL'      => $data->sourceURL,
-				'sourceName'     => $data->sourceName,
+				'sourceURL'      => isset($data->sourceURL) ? $data->sourceURL : null,
+				'sourceName'     => isset($data->sourceName) ? $data->sourceName : null,
 				'date'           => $data->date,
-				'relatedPlayers' => $relatedPlayers,
+				'relatedPlayers' => isset( $relatedPlayers ) ? $relatedPlayers : null,
 				'sport'          => $this->sport
 
 
